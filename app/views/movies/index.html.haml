@@ -6,10 +6,10 @@
   %thead
     %tr
       %th
-        a#title_header Movie Title
+        %a{:id => "#title_header"} Movie Title
       %th Rating
       %th
-        a#release_date_header Movie Title
+        %a{:id => "#release_date_header"} Release Date
       %th More Info
   %tbody
     - @movies.each do |movie|
