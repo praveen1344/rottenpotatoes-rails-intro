@@ -11,7 +11,17 @@ class MoviesController < ApplicationController
   end
 
   def index
-    @movies = Movie.all
+    if params[:sort] == 'title'
+      @movies = Movie.order('title')
+      @title_hilite = 'hilite'
+    elsif params[:sort] == 'release_date'
+      @movies = Movie.order('release_date')
+      @release_date_hilite = 'hilite'
+    else
+      @movies = Movie.all
+    end
+    
+    # @movies = Movie.order('release_date')
   end
 
   def new
@@ -33,6 +43,12 @@ class MoviesController < ApplicationController
     @movie.update_attributes!(movie_params)
     flash[:notice] = "#{@movie.title} was successfully updated."
     redirect_to movie_path(@movie)
+  end
+  
+  def sort_by_name
+    # @movie = Movie.find params[0]
+    # @movie.destroy
+    puts "sadadasdads"
   end
 
   def destroy
