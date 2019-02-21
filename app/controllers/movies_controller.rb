@@ -20,8 +20,6 @@ class MoviesController < ApplicationController
     else
       @movies = Movie.all
     end
-    
-    # @movies = Movie.order('release_date')
   end
 
   def new
