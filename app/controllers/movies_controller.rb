@@ -11,14 +11,25 @@ class MoviesController < ApplicationController
   end
 
   def index
-    if params[:sort] == 'title'
-      @movies = Movie.order('title')
-      @title_hilite = 'hilite'
-    elsif params[:sort] == 'release_date'
-      @movies = Movie.order('release_date')
-      @release_date_hilite = 'hilite'
+    #@movies = Movie.all
+    #if params[:moviesort_by] == nil
+     # @movies = Movie.all
+    #else
+     #@movies = Movie.order(params[:moviesort_by])
+     #@moviesort_column = params[:moviesort_by]
+    #end
+        @movies = Movie.all.order(params[:moviesort_by])
+    if params[:ratings]
+      @movies = Movie.where({rating:  params[:ratings].keys }).order(params[:moviesort_by])
+    end
+    @moviesort_column = params[:moviesort_by]
+    @all_ratings = Movie.all_movieratings
+    @set_movieratings = params[:ratings]
+    if !@set_movieratings
+      @set_movieratings = Hash.new
+            @execute_first = true
     else
-      @movies = Movie.all
+            @execute_first = false
     end
   end
 
@@ -41,12 +52,6 @@ class MoviesController < ApplicationController
     @movie.update_attributes!(movie_params)
     flash[:notice] = "#{@movie.title} was successfully updated."
     redirect_to movie_path(@movie)
-  end
-  
-  def sort_by_name
-    # @movie = Movie.find params[0]
-    # @movie.destroy
-    puts "sadadasdads"
   end
 
   def destroy
